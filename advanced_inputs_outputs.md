@@ -12,7 +12,12 @@ Mark Blackmore
 -   [Mapping over more than two arguments](#mapping-over-more-than-two-arguments)
 -   [Argument matching](#argument-matching)
 -   [Mapping over functions and their arguments](#mapping-over-functions-and-their-arguments)
--   [\#\#\#](#section)
+-   [Walk](#walk)
+-   [Walking over two or more arguments](#walking-over-two-or-more-arguments)
+-   [Putting together writing functions and walk](#putting-together-writing-functions-and-walk)
+-   [Nice breaks for all](#nice-breaks-for-all)
+-   [Walking with many arguments: pwalk](#walking-with-many-arguments-pwalk)
+-   [Walking with pipes](#walking-with-pipes)
 -   [Session info](#session-info)
 
 ``` r
@@ -590,17 +595,17 @@ map(n, rnorm)
 ```
 
     ## [[1]]
-    ## [1]  0.4104443 -0.7820147 -0.2311424  0.9765820  0.1700784
+    ## [1] -1.2214383  0.5366951  0.6823449 -0.2334834  0.5430769
     ## 
     ## [[2]]
-    ##  [1] -0.04519851  1.45777668  1.77447694 -1.06767334 -1.33741109
-    ##  [6] -0.91230621 -0.27323558 -0.72167195  0.41258091  1.99140438
+    ##  [1]  0.1427981 -0.3768627  0.5343543 -1.1500998 -0.7793329 -0.4163524
+    ##  [7]  0.6999803  1.8238646  0.2291522  1.6165608
     ## 
     ## [[3]]
-    ##  [1] -0.99468342  0.44987668 -1.08975525 -0.42913359  0.79131039
-    ##  [6]  0.20520377 -0.32988045 -1.23797273 -0.43672851 -0.17807552
-    ## [11] -0.16363826  0.04289188 -1.21150941 -0.28442804 -0.64522681
-    ## [16] -0.64912087  0.80260540  0.11336241  0.78948002 -0.52832926
+    ##  [1] -0.40110741  0.70523027  1.07648758 -0.08135929 -0.48928144
+    ##  [6] -0.72633601 -0.95181948 -0.50547837  0.23959839  0.10017463
+    ## [11]  1.20794417  1.47918158  0.26047410  0.17667267  0.54214472
+    ## [16]  1.88339939 -2.45614515  0.67804570 -0.13506070  0.45448723
 
 ### Mapping over two arguments
 
@@ -616,16 +621,16 @@ map2(n, mu, rnorm)
 ```
 
     ## [[1]]
-    ## [1] 1.4838354 0.2543597 1.0896273 1.5939281 1.5207013
+    ## [1] 0.8555138 1.6273820 0.5168351 2.0799440 2.3508324
     ## 
     ## [[2]]
-    ##  [1] 4.165401 4.224218 4.294309 4.732445 4.341611 3.801154 4.870711
-    ##  [8] 5.534414 4.729197 7.543582
+    ##  [1] 4.419126 4.830928 3.937672 7.001716 5.603982 4.710123 4.347061
+    ##  [8] 5.502339 4.837283 3.634987
     ## 
     ## [[3]]
-    ##  [1] 10.902001  9.953484 10.600925  9.191764  9.458201  9.880011 11.785457
-    ##  [8]  8.870959 10.064702  9.497186 10.360333  9.400139 10.844772 11.921866
-    ## [15]  9.421699  9.681770  9.954654  9.923287 10.434819  9.721794
+    ##  [1]  9.572723  9.512621  9.327911 11.445868  9.643655 10.166784  8.746727
+    ##  [8] 10.456755  9.301446  9.704700 10.881073 10.121682 10.719822  7.715683
+    ## [15]  9.867954 12.123370  9.478883  9.182172 10.450203 10.382097
 
 ### Mapping over more than two arguments
 
@@ -642,16 +647,16 @@ pmap(list(n, mu, sd), rnorm)
 ```
 
     ## [[1]]
-    ## [1] 1.0611281 0.8430716 0.9297483 0.9491758 0.9849965
+    ## [1] 1.0279251 0.9444572 1.0913609 1.1930866 0.7624164
     ## 
     ## [[2]]
-    ##  [1] 5.159110 4.474653 4.580028 6.238638 4.208393 6.523781 4.902833
-    ##  [8] 5.373284 4.709881 4.850272
+    ##  [1] 5.501713 5.469858 5.382754 3.639139 4.418150 5.934115 4.451285
+    ##  [8] 4.090516 4.684796 6.577442
     ## 
     ## [[3]]
-    ##  [1] 10.114877  9.908774 10.019491  9.986079 10.033910  9.984488  9.837406
-    ##  [8]  9.726501 10.022808 10.069268  9.916069  9.935578 10.134189  9.831927
-    ## [15] 10.231276  9.881607 10.049934 10.022373  9.790246 10.078923
+    ##  [1]  9.958172  9.819503 10.044973  9.892124 10.114344  9.967808  9.901165
+    ##  [8] 10.066920 10.213966  9.926671  9.802237  9.991128 10.215458 10.135968
+    ## [15]  9.968832 10.064651 10.179693  9.810671  9.999761 10.143640
 
 ### Argument matching
 
@@ -661,16 +666,16 @@ pmap(list(mean=mu, n=n, sd=sd), rnorm)
 ```
 
     ## [[1]]
-    ## [1] 0.8347064 0.9663779 1.0708228 1.0105310 1.0723563
+    ## [1] 0.8767423 1.1071667 1.0593482 1.0463707 1.0410143
     ## 
     ## [[2]]
-    ##  [1] 4.601115 5.162643 5.023585 5.978145 3.677435 5.248080 4.591794
-    ##  [8] 5.611666 4.781386 6.091015
+    ##  [1] 3.242663 4.137544 5.275493 6.036465 2.621299 6.631652 4.920310
+    ##  [8] 4.935539 4.574548 2.932945
     ## 
     ## [[3]]
-    ##  [1]  9.868802  9.914552  9.832942  9.908804  9.940376  9.971085  9.947327
-    ##  [8] 10.169171  9.895959  9.947225 10.300108  9.819511  9.878528 10.095206
-    ## [15] 10.014525 10.018563 10.233171 10.116603 10.160584 10.037681
+    ##  [1]  9.969265 10.081843 10.172196 10.033005 10.041567  9.951397  9.968353
+    ##  [8] 10.081489  9.922902  9.973252  9.938671 10.111712 10.066805 10.259793
+    ## [15]  9.843459  9.907056  9.930375  9.791008  9.790873 10.101253
 
 ### Mapping over functions and their arguments
 
@@ -699,22 +704,133 @@ invoke_map(f, params, n = 5)
 ```
 
     ## [[1]]
-    ## [1] 10.909717  9.599702  8.294376  9.059820  9.865898
+    ## [1]  9.715819 11.230482  8.968986  8.795254 10.252403
     ## 
     ## [[2]]
-    ## [1] 4.9014102 1.9646933 0.4006813 3.2853325 4.5877085
+    ## [1] 4.6339198 2.4844285 3.5151808 3.2225571 0.8456517
     ## 
     ## [[3]]
-    ## [1] 0.05385477 0.09137467 0.47941635 0.26702713 0.02941993
+    ## [1] 0.2046233 0.3730210 0.7343054 0.1042544 0.2313891
 
-\#\#\#
-------
+### Walk
+
+``` r
+# Define list of functions
+f <- list(Normal = "rnorm", Uniform = "runif", Exp = "rexp")
+
+# Define params
+params <- list(
+  Normal = list(mean = 10),
+  Uniform = list(min = 0, max = 5),
+  Exp = list(rate = 5)
+)
+
+# Assign the simulated samples to sims
+sims <- invoke_map(f, params, n = 50)
+
+# Use walk() to make a histogram of each element in sims
+walk(sims, hist)
+```
+
+![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-2.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-3.png)
+
+### Walking over two or more arguments
+
+``` r
+# Replace "Sturges" with reasonable breaks for each sample
+breaks_list <- list(
+  Normal = seq(6, 16, 0.5),
+  Uniform = seq(0, 5, 0.25),
+  Exp = seq(0, 1.5, 0.1)
+)
+
+# Use walk2() to make histograms with the right breaks
+walk2(sims, breaks_list, hist)
+```
+
+![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-1.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-2.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-12-3.png)
+
+### Putting together writing functions and walk
+
+``` r
+# Turn this snippet into find_breaks()
+
+find_breaks <- function(x){
+  rng <- range(sims[[1]], na.rm = TRUE)
+  seq(rng[1], rng[2], length.out = 30)
+}
+
+# Call find_breaks() on sims[[1]]
+find_breaks(sim[[1]])
+```
+
+    ##  [1]  7.056114  7.227571  7.399028  7.570485  7.741942  7.913399  8.084856
+    ##  [8]  8.256313  8.427770  8.599227  8.770684  8.942141  9.113598  9.285055
+    ## [15]  9.456512  9.627969  9.799426  9.970883 10.142340 10.313797 10.485254
+    ## [22] 10.656711 10.828168 10.999625 11.171082 11.342539 11.513996 11.685453
+    ## [29] 11.856910 12.028367
+
+### Nice breaks for all
+
+``` r
+# Use map() to iterate find_breaks() over sims: nice_breaks
+nice_breaks <- map(sims, find_breaks)
+
+# Use nice_breaks as the second argument to walk2()
+# Note: nice_breaks throws an error
+walk2(sims, "Sturges", hist) 
+```
+
+![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-2.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-3.png)
+
+### Walking with many arguments: pwalk
+
+``` r
+# Increase sample size to 1000
+sims <- invoke_map(f, params, n = 1000)
+
+# Compute nice_breaks (don't change this)
+nice_breaks <- map(sims, find_breaks)
+
+# Create a vector nice_titles
+nice_titles <- c("Normal(10, 1)", "Uniform(0, 5)", "Exp(5)")
+
+# Use pwalk() instead of walk2()
+pwalk(list(x = sims, breaks = "Sturges", main = nice_titles), hist, xlab = "")
+```
+
+![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-2.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-3.png)
+
+### Walking with pipes
+
+``` r
+# Pipe this along to map(), using summary() as .f
+sims %>%
+  walk(hist) %>%
+  map(summary)
+```
+
+![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-2.png)![](advanced_inputs_outputs_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-3.png)
+
+    ## $Normal
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    ##   7.088   9.324  10.053  10.022  10.690  13.414 
+    ## 
+    ## $Uniform
+    ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    ## 0.002173 1.149462 2.582026 2.502412 3.820991 4.999205 
+    ## 
+    ## $Exp
+    ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+    ## 0.0000031 0.0582116 0.1347326 0.1934939 0.2708029 2.1136884
+
+------------------------------------------------------------------------
 
 Session info
 ------------
 
 ``` r
-sessionInfo()   
+sessionInfo()
 ```
 
     ## R version 3.4.2 (2017-09-28)

@@ -140,10 +140,81 @@ params <- list(
 # Call invoke_map() on f supplying params as the second argument
 invoke_map(f, params, n = 5)
 
-#' ### 
+#' ### Walk  
+
+# Define list of functions
+f <- list(Normal = "rnorm", Uniform = "runif", Exp = "rexp")
+
+# Define params
+params <- list(
+  Normal = list(mean = 10),
+  Uniform = list(min = 0, max = 5),
+  Exp = list(rate = 5)
+)
+
+# Assign the simulated samples to sims
+sims <- invoke_map(f, params, n = 50)
+
+# Use walk() to make a histogram of each element in sims
+walk(sims, hist)
+
+#' ### Walking over two or more arguments  
+
+# Replace "Sturges" with reasonable breaks for each sample
+breaks_list <- list(
+  Normal = seq(6, 16, 0.5),
+  Uniform = seq(0, 5, 0.25),
+  Exp = seq(0, 1.5, 0.1)
+)
+
+# Use walk2() to make histograms with the right breaks
+walk2(sims, breaks_list, hist)
+
+#' ### Putting together writing functions and walk
+
+# Turn this snippet into find_breaks()
+
+find_breaks <- function(x){
+  rng <- range(sims[[1]], na.rm = TRUE)
+  seq(rng[1], rng[2], length.out = 30)
+}
+
+# Call find_breaks() on sims[[1]]
+find_breaks(sim[[1]])
+
+#' ### Nice breaks for all
+
+# Use map() to iterate find_breaks() over sims: nice_breaks
+nice_breaks <- map(sims, find_breaks)
+
+# Use nice_breaks as the second argument to walk2()
+# Note: nice_breaks throws an error
+walk2(sims, "Sturges", hist) 
+
+#' ### Walking with many arguments: pwalk
+
+# Increase sample size to 1000
+sims <- invoke_map(f, params, n = 1000)
+
+# Compute nice_breaks (don't change this)
+nice_breaks <- map(sims, find_breaks)
+
+# Create a vector nice_titles
+nice_titles <- c("Normal(10, 1)", "Uniform(0, 5)", "Exp(5)")
+
+# Use pwalk() instead of walk2()
+pwalk(list(x = sims, breaks = "Sturges", main = nice_titles), hist, xlab = "")
+
+#' ### Walking with pipes
+
+# Pipe this along to map(), using summary() as .f
+sims %>%
+  walk(hist) %>%
+  map(summary)
+
 
 #' -------------
-#'  
+#'
 #' ## Session info
 #+ show-sessionInfo
-sessionInfo()   
+sessionInfo()
