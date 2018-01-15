@@ -41,3 +41,114 @@ col_median <- function(df){
 }
 
 col_median(df)
+
+#' ### What about column means?   
+
+# Create col_mean() function to find column means
+col_mean <- function(df) {
+  output <- numeric(length(df))
+  for (i in seq_along(df)) {
+    output[[i]] <- mean(df[[i]])
+  }
+  output
+}
+
+col_mean(df)
+
+#' ### What about column standard deviations?  
+
+# Define col_sd() function
+col_sd <- function(df) {
+  output <- numeric(length(df))
+  for (i in seq_along(df)) {
+    output[[i]] <- sd(df[[i]])
+  }
+  output
+}
+
+col_sd(df)
+
+#' ### Uh oh...time to write a function again  
+
+# Add a second argument called power
+f <- function(x, power) {
+  # Edit the body to return absolute deviations raised to power
+  abs(x - mean(x)) ^ power
+}
+
+# Add a second argument called power
+f <- function(x, power) {
+  # Edit the body to return absolute deviations raised to power
+  abs(x - mean(x)) ^ power
+}
+
+
+#' ### Using a function as an argument  
+
+col_summary <- function(df, fun) {
+  output <- vector("numeric", length(df))
+  for (i in seq_along(df)) {
+    output[[i]] <- fun(df[[i]])
+  }
+  output
+}
+
+# Find the column medians using col_median() and col_summary()
+col_median(df)
+col_summary(df, fun = median)
+
+# Find the column means using col_mean() and col_summary()
+col_mean(df)
+col_summary(df, fun = mean)
+
+# Find the column IQRs using col_summary()
+col_summary(df, fun = IQR)
+
+#' ### The map functions  
+
+# Load the purrr package
+library(purrr)
+
+# Use map_dbl() to find column means
+map_dbl(df, mean)
+
+# Use map_dbl() to column medians
+map_dbl(df, median)
+
+# Use map_dbl() to find column standard deviations
+map_dbl(df, sd)
+
+#' ### The ... argument to the map functions  
+
+planes <- data.frame(year = c(1956, 1975, 1977, 1996, 2010, NA),
+                     engines = c(4, 1, 2, 2, 2, 1),
+                     seats = c(102, 4, 139, 142, 20, 2),
+                     speed = c(232, 108, 432, NA, NA, NA)) 
+
+# Find the mean of each column
+map_dbl(planes, mean)
+
+# Find the mean of each column, excluding missing values
+map_dbl(planes, mean, na.rm = TRUE)
+
+# Find the 5th percentile of each column, excluding missing values
+map_dbl(planes, quantile, 0.05, na.rm = TRUE)
+
+#' ### Picking the right map function  
+
+df3 <- data.frame(A = c(0.5123748, -0.5320614, -0.9896766,  0.1467971,  0.5180139,  
+                        1.6141701, 1.1358714,  1.9706641, -0.8599646, -1.5132293 ),
+                  B = c("A", "B", "A", "B", "A", "B", "A", "B", "A", "B"),
+                  C = 1:10,
+                  D = c(0.07360872, -0.10654830,  1.02213489, -0.08360299,  1.32206949,
+                        1.13624467, 0.57766900,  0.61217352,  0.34261408,  0.37195776))
+
+# Find the columns that are numeric
+map_lgl(df3, is.numeric)
+
+# Find the type of each column
+map_chr(df3, typeof)
+
+# Find a summary of each column
+map(df3, summary)
+
