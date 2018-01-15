@@ -18,6 +18,7 @@ Mark Blackmore
 -   [Using a string](#using-a-string)
 -   [Using a numeric vector](#using-a-numeric-vector)
 -   [Putting it together with pipes](#putting-it-together-with-pipes)
+-   [Session info](#session-info)
 
 ### Using a for loop to remove duplication
 
@@ -42,7 +43,7 @@ for (i in seq_along(df)) {
 output
 ```
 
-    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
+    ## [1]  0.08960332  0.02780579 -0.04202667  0.56047067
 
 ### Turning the for loop into a function
 
@@ -59,7 +60,7 @@ col_median <- function(df){
 col_median(df)
 ```
 
-    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
+    ## [1]  0.08960332  0.02780579 -0.04202667  0.56047067
 
 ### What about column means?
 
@@ -76,7 +77,7 @@ col_mean <- function(df) {
 col_mean(df)
 ```
 
-    ## [1]  0.31226912 -0.08289358 -0.20273164 -0.38814542
+    ## [1]  0.07573556 -0.14765104 -0.05054270  0.74756382
 
 ### What about column standard deviations?
 
@@ -93,7 +94,7 @@ col_sd <- function(df) {
 col_sd(df)
 ```
 
-    ## [1] 1.0537019 0.7705826 0.8659556 1.0847900
+    ## [1] 0.6472762 0.8609988 1.5210621 1.2073521
 
 ### Uh oh...time to write a function again
 
@@ -126,33 +127,33 @@ col_summary <- function(df, fun) {
 col_median(df)
 ```
 
-    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
+    ## [1]  0.08960332  0.02780579 -0.04202667  0.56047067
 
 ``` r
 col_summary(df, fun = median)
 ```
 
-    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
+    ## [1]  0.08960332  0.02780579 -0.04202667  0.56047067
 
 ``` r
 # Find the column means using col_mean() and col_summary()
 col_mean(df)
 ```
 
-    ## [1]  0.31226912 -0.08289358 -0.20273164 -0.38814542
+    ## [1]  0.07573556 -0.14765104 -0.05054270  0.74756382
 
 ``` r
 col_summary(df, fun = mean)
 ```
 
-    ## [1]  0.31226912 -0.08289358 -0.20273164 -0.38814542
+    ## [1]  0.07573556 -0.14765104 -0.05054270  0.74756382
 
 ``` r
 # Find the column IQRs using col_summary()
 col_summary(df, fun = IQR)
 ```
 
-    ## [1] 1.5121108 1.2750435 0.5443823 1.3445191
+    ## [1] 1.119492 1.482322 2.042259 1.430606
 
 ### The map functions
 
@@ -165,7 +166,7 @@ map_dbl(df, mean)
 ```
 
     ##           a           b           c           d 
-    ##  0.31226912 -0.08289358 -0.20273164 -0.38814542
+    ##  0.07573556 -0.14765104 -0.05054270  0.74756382
 
 ``` r
 # Use map_dbl() to column medians
@@ -173,7 +174,7 @@ map_dbl(df, median)
 ```
 
     ##           a           b           c           d 
-    ##  0.15816912 -0.03842034 -0.31411890 -0.52354702
+    ##  0.08960332  0.02780579 -0.04202667  0.56047067
 
 ``` r
 # Use map_dbl() to find column standard deviations
@@ -181,7 +182,7 @@ map_dbl(df, sd)
 ```
 
     ##         a         b         c         d 
-    ## 1.0537019 0.7705826 0.8659556 1.0847900
+    ## 0.6472762 0.8609988 1.5210621 1.2073521
 
 ### The ... argument to the map functions
 
@@ -480,3 +481,37 @@ models %>% map(summary) %>% map_dbl("r.squared")
 
     ##         4         6         8 
     ## 0.5086326 0.4645102 0.4229655
+
+------------------------------------------------------------------------
+
+Session info
+------------
+
+``` r
+sessionInfo()   
+```
+
+    ## R version 3.4.2 (2017-09-28)
+    ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+    ## Running under: Windows 10 x64 (build 16299)
+    ## 
+    ## Matrix products: default
+    ## 
+    ## locale:
+    ## [1] LC_COLLATE=English_United States.1252 
+    ## [2] LC_CTYPE=English_United States.1252   
+    ## [3] LC_MONETARY=English_United States.1252
+    ## [4] LC_NUMERIC=C                          
+    ## [5] LC_TIME=English_United States.1252    
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ## [1] purrr_0.2.3
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] compiler_3.4.2  backports_1.1.1 magrittr_1.5    rprojroot_1.2  
+    ##  [5] tools_3.4.2     htmltools_0.3.6 yaml_2.1.14     Rcpp_0.12.13   
+    ##  [9] stringi_1.1.5   rmarkdown_1.6   knitr_1.17      stringr_1.2.0  
+    ## [13] digest_0.6.12   rlang_0.1.2     evaluate_0.10.1

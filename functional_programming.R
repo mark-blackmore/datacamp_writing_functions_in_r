@@ -209,4 +209,8 @@ models <- mtcars %>%
 # Rewrite to be a single command using pipes 
 models %>% map(summary) %>% map_dbl("r.squared")
 
-
+#' -------------
+#'  
+#' ## Session info
+#+ show-sessionInfo
+sessionInfo()   

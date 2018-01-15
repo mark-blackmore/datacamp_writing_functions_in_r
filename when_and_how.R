@@ -180,4 +180,8 @@ dfz <- data.frame(z = c(1.2242865, 0.9648116, NA, 3.0548305, 0.4427162,
                          -0.1479685, 0.6688705, 0.4171186, 0.5109801, NA))
 replace_missings(dfz$z, 0)
 
-
+#' -------------
+#'  
+#' ## Session info
+#+ show-sessionInfo
+sessionInfo()   

@@ -141,6 +141,11 @@ for (i in seq_along(df)) {
 # Print output
 output
 
+#' -------------
+#'  
+#' ## Session info
+#+ show-sessionInfo
+sessionInfo()   
 
 
 

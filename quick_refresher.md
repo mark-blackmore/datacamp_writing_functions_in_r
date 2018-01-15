@@ -1,7 +1,7 @@
 Quick refresher
 ================
 Mark Blackmore
-2018-01-11
+2018-01-15
 
 -   [Writing a function](#writing-a-function)
 -   [Testing your understanding of scoping (1)](#testing-your-understanding-of-scoping-1)
@@ -11,6 +11,7 @@ Mark Blackmore
 -   [Exploring lists](#exploring-lists)
 -   [A safr way to create the sequence](#a-safr-way-to-create-the-sequence)
 -   [Keeping output](#keeping-output)
+-   [Session info](#session-info)
 
 ### Writing a function
 
@@ -235,10 +236,10 @@ for (i in seq_along(df)) {
 }
 ```
 
-    ## [1] 0.1082272
-    ## [1] -0.2887829
-    ## [1] 0.556929
-    ## [1] -0.1678991
+    ## [1] 0.2112018
+    ## [1] -0.2823895
+    ## [1] -0.5321322
+    ## [1] -0.1443082
 
 ``` r
 # Change the value of df
@@ -273,4 +274,35 @@ for (i in seq_along(df)) {
 output
 ```
 
-    ## [1]  0.22029983 -0.15980395  0.09502493  0.70196518
+    ## [1]  0.1030177 -0.1280884 -0.6287061  0.1118977
+
+------------------------------------------------------------------------
+
+Session info
+------------
+
+``` r
+sessionInfo()   
+```
+
+    ## R version 3.4.2 (2017-09-28)
+    ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+    ## Running under: Windows 10 x64 (build 16299)
+    ## 
+    ## Matrix products: default
+    ## 
+    ## locale:
+    ## [1] LC_COLLATE=English_United States.1252 
+    ## [2] LC_CTYPE=English_United States.1252   
+    ## [3] LC_MONETARY=English_United States.1252
+    ## [4] LC_NUMERIC=C                          
+    ## [5] LC_TIME=English_United States.1252    
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] compiler_3.4.2  backports_1.1.1 magrittr_1.5    rprojroot_1.2  
+    ##  [5] tools_3.4.2     htmltools_0.3.6 yaml_2.1.14     Rcpp_0.12.13   
+    ##  [9] stringi_1.1.5   rmarkdown_1.6   knitr_1.17      stringr_1.2.0  
+    ## [13] digest_0.6.12   evaluate_0.10.1

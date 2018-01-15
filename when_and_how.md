@@ -1,7 +1,7 @@
 When and how you should write a function
 ================
 Mark Blackmore
-2018-01-12
+2018-01-15
 
 -   [Start with a code snippet](#start-with-a-code-snippet)
 -   [Rewrite for clarity](#rewrite-for-clarity)
@@ -16,6 +16,7 @@ Mark Blackmore
 -   [Let's make it clear from its name](#lets-make-it-clear-from-its-name)
 -   [Make the body more understandable](#make-the-body-more-understandable)
 -   [Much better! But a few more tweaks](#much-better-but-a-few-more-tweaks)
+-   [Session info](#session-info)
 
 ### Start with a code snippet
 
@@ -262,3 +263,34 @@ replace_missings(dfz$z, 0)
 
     ##  [1]  1.2242865  0.9648116  0.0000000  3.0548305  0.4427162 -0.1479685
     ##  [7]  0.6688705  0.4171186  0.5109801  0.0000000
+
+------------------------------------------------------------------------
+
+Session info
+------------
+
+``` r
+sessionInfo()   
+```
+
+    ## R version 3.4.2 (2017-09-28)
+    ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+    ## Running under: Windows 10 x64 (build 16299)
+    ## 
+    ## Matrix products: default
+    ## 
+    ## locale:
+    ## [1] LC_COLLATE=English_United States.1252 
+    ## [2] LC_CTYPE=English_United States.1252   
+    ## [3] LC_MONETARY=English_United States.1252
+    ## [4] LC_NUMERIC=C                          
+    ## [5] LC_TIME=English_United States.1252    
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] compiler_3.4.2  backports_1.1.1 magrittr_1.5    rprojroot_1.2  
+    ##  [5] tools_3.4.2     htmltools_0.3.6 yaml_2.1.14     Rcpp_0.12.13   
+    ##  [9] stringi_1.1.5   rmarkdown_1.6   knitr_1.17      stringr_1.2.0  
+    ## [13] digest_0.6.12   evaluate_0.10.1
