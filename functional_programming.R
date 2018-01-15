@@ -152,3 +152,61 @@ map_chr(df3, typeof)
 # Find a summary of each column
 map(df3, summary)
 
+#' ### Solve a simple problem first  
+
+cyl <- split(mtcars, mtcars$cyl)
+# Examine the structure of cyl
+str(cyl)
+
+# Extract the first element into four_cyls
+four_cyls <- cyl[[1]]
+
+# Fit a linear regression of mpg on wt using four_cyls
+lm(mpg ~ wt, four_cyls )
+
+#' ### Using an anonymous function  
+
+fit_reg <- function(df) {
+  lm(mpg ~ wt, data = df)
+}
+
+# Call user written function
+map(cyl, fit_reg)
+
+# Rewrite to call an anonymous function
+map(cyl, function(df) lm(mpg ~ wt, data = df))
+
+#' ### Using a formula  
+
+# Rewrite to use the formula shortcut instead
+map(cyl, ~ lm(mpg ~ wt, data = .))
+
+#' ### Using a string  
+
+# Save the result from the previous exercise to the variable models
+models <- map(cyl, ~ lm(mpg ~ wt, data = .))
+
+# Use map and coef to get the coefficients for each model: coefs
+coefs <- map(models, coef)
+
+# Use string shortcut to extract the wt coefficient 
+map(coefs, "wt")
+
+#' ### Using a numeric vector 
+
+coefs <- map(models, coef)
+
+# use map_dbl with the numeric shortcut to pull out the second element
+map_dbl(coefs, 2)
+
+#' ### Putting it together with pipes  
+
+# Define models (don't change)
+models <- mtcars %>% 
+  split(mtcars$cyl) %>%
+  map(~ lm(mpg ~ wt, data = .))
+
+# Rewrite to be a single command using pipes 
+models %>% map(summary) %>% map_dbl("r.squared")
+
+

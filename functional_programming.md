@@ -12,6 +12,12 @@ Mark Blackmore
 -   [The map functions](#the-map-functions)
 -   [The ... argument to the map functions](#the-...-argument-to-the-map-functions)
 -   [Picking the right map function](#picking-the-right-map-function)
+-   [Solve a simple problem first](#solve-a-simple-problem-first)
+-   [Using an anonymous function](#using-an-anonymous-function)
+-   [Using a formula](#using-a-formula)
+-   [Using a string](#using-a-string)
+-   [Using a numeric vector](#using-a-numeric-vector)
+-   [Putting it together with pipes](#putting-it-together-with-pipes)
 
 ### Using a for loop to remove duplication
 
@@ -36,7 +42,7 @@ for (i in seq_along(df)) {
 output
 ```
 
-    ## [1] 0.002316167 0.174966436 0.233346776 0.165688804
+    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
 
 ### Turning the for loop into a function
 
@@ -53,7 +59,7 @@ col_median <- function(df){
 col_median(df)
 ```
 
-    ## [1] 0.002316167 0.174966436 0.233346776 0.165688804
+    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
 
 ### What about column means?
 
@@ -70,7 +76,7 @@ col_mean <- function(df) {
 col_mean(df)
 ```
 
-    ## [1] -0.21749834  0.09633615  0.29368930  0.29535148
+    ## [1]  0.31226912 -0.08289358 -0.20273164 -0.38814542
 
 ### What about column standard deviations?
 
@@ -87,7 +93,7 @@ col_sd <- function(df) {
 col_sd(df)
 ```
 
-    ## [1] 0.8728061 1.3521124 1.0583077 0.8195153
+    ## [1] 1.0537019 0.7705826 0.8659556 1.0847900
 
 ### Uh oh...time to write a function again
 
@@ -120,33 +126,33 @@ col_summary <- function(df, fun) {
 col_median(df)
 ```
 
-    ## [1] 0.002316167 0.174966436 0.233346776 0.165688804
+    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
 
 ``` r
 col_summary(df, fun = median)
 ```
 
-    ## [1] 0.002316167 0.174966436 0.233346776 0.165688804
+    ## [1]  0.15816912 -0.03842034 -0.31411890 -0.52354702
 
 ``` r
 # Find the column means using col_mean() and col_summary()
 col_mean(df)
 ```
 
-    ## [1] -0.21749834  0.09633615  0.29368930  0.29535148
+    ## [1]  0.31226912 -0.08289358 -0.20273164 -0.38814542
 
 ``` r
 col_summary(df, fun = mean)
 ```
 
-    ## [1] -0.21749834  0.09633615  0.29368930  0.29535148
+    ## [1]  0.31226912 -0.08289358 -0.20273164 -0.38814542
 
 ``` r
 # Find the column IQRs using col_summary()
 col_summary(df, fun = IQR)
 ```
 
-    ## [1] 0.6615423 2.3136151 1.4055018 0.6414719
+    ## [1] 1.5121108 1.2750435 0.5443823 1.3445191
 
 ### The map functions
 
@@ -159,7 +165,7 @@ map_dbl(df, mean)
 ```
 
     ##           a           b           c           d 
-    ## -0.21749834  0.09633615  0.29368930  0.29535148
+    ##  0.31226912 -0.08289358 -0.20273164 -0.38814542
 
 ``` r
 # Use map_dbl() to column medians
@@ -167,7 +173,7 @@ map_dbl(df, median)
 ```
 
     ##           a           b           c           d 
-    ## 0.002316167 0.174966436 0.233346776 0.165688804
+    ##  0.15816912 -0.03842034 -0.31411890 -0.52354702
 
 ``` r
 # Use map_dbl() to find column standard deviations
@@ -175,7 +181,7 @@ map_dbl(df, sd)
 ```
 
     ##         a         b         c         d 
-    ## 0.8728061 1.3521124 1.0583077 0.8195153
+    ## 1.0537019 0.7705826 0.8659556 1.0847900
 
 ### The ... argument to the map functions
 
@@ -253,3 +259,224 @@ map(df3, summary)
     ## $D
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
     ## -0.1065  0.1409  0.4748  0.5268  0.9196  1.3221
+
+### Solve a simple problem first
+
+``` r
+cyl <- split(mtcars, mtcars$cyl)
+# Examine the structure of cyl
+str(cyl)
+```
+
+    ## List of 3
+    ##  $ 4:'data.frame':   11 obs. of  11 variables:
+    ##   ..$ mpg : num [1:11] 22.8 24.4 22.8 32.4 30.4 33.9 21.5 27.3 26 30.4 ...
+    ##   ..$ cyl : num [1:11] 4 4 4 4 4 4 4 4 4 4 ...
+    ##   ..$ disp: num [1:11] 108 146.7 140.8 78.7 75.7 ...
+    ##   ..$ hp  : num [1:11] 93 62 95 66 52 65 97 66 91 113 ...
+    ##   ..$ drat: num [1:11] 3.85 3.69 3.92 4.08 4.93 4.22 3.7 4.08 4.43 3.77 ...
+    ##   ..$ wt  : num [1:11] 2.32 3.19 3.15 2.2 1.61 ...
+    ##   ..$ qsec: num [1:11] 18.6 20 22.9 19.5 18.5 ...
+    ##   ..$ vs  : num [1:11] 1 1 1 1 1 1 1 1 0 1 ...
+    ##   ..$ am  : num [1:11] 1 0 0 1 1 1 0 1 1 1 ...
+    ##   ..$ gear: num [1:11] 4 4 4 4 4 4 3 4 5 5 ...
+    ##   ..$ carb: num [1:11] 1 2 2 1 2 1 1 1 2 2 ...
+    ##  $ 6:'data.frame':   7 obs. of  11 variables:
+    ##   ..$ mpg : num [1:7] 21 21 21.4 18.1 19.2 17.8 19.7
+    ##   ..$ cyl : num [1:7] 6 6 6 6 6 6 6
+    ##   ..$ disp: num [1:7] 160 160 258 225 168 ...
+    ##   ..$ hp  : num [1:7] 110 110 110 105 123 123 175
+    ##   ..$ drat: num [1:7] 3.9 3.9 3.08 2.76 3.92 3.92 3.62
+    ##   ..$ wt  : num [1:7] 2.62 2.88 3.21 3.46 3.44 ...
+    ##   ..$ qsec: num [1:7] 16.5 17 19.4 20.2 18.3 ...
+    ##   ..$ vs  : num [1:7] 0 0 1 1 1 1 0
+    ##   ..$ am  : num [1:7] 1 1 0 0 0 0 1
+    ##   ..$ gear: num [1:7] 4 4 3 3 4 4 5
+    ##   ..$ carb: num [1:7] 4 4 1 1 4 4 6
+    ##  $ 8:'data.frame':   14 obs. of  11 variables:
+    ##   ..$ mpg : num [1:14] 18.7 14.3 16.4 17.3 15.2 10.4 10.4 14.7 15.5 15.2 ...
+    ##   ..$ cyl : num [1:14] 8 8 8 8 8 8 8 8 8 8 ...
+    ##   ..$ disp: num [1:14] 360 360 276 276 276 ...
+    ##   ..$ hp  : num [1:14] 175 245 180 180 180 205 215 230 150 150 ...
+    ##   ..$ drat: num [1:14] 3.15 3.21 3.07 3.07 3.07 2.93 3 3.23 2.76 3.15 ...
+    ##   ..$ wt  : num [1:14] 3.44 3.57 4.07 3.73 3.78 ...
+    ##   ..$ qsec: num [1:14] 17 15.8 17.4 17.6 18 ...
+    ##   ..$ vs  : num [1:14] 0 0 0 0 0 0 0 0 0 0 ...
+    ##   ..$ am  : num [1:14] 0 0 0 0 0 0 0 0 0 0 ...
+    ##   ..$ gear: num [1:14] 3 3 3 3 3 3 3 3 3 3 ...
+    ##   ..$ carb: num [1:14] 2 4 3 3 3 4 4 4 2 2 ...
+
+``` r
+# Extract the first element into four_cyls
+four_cyls <- cyl[[1]]
+
+# Fit a linear regression of mpg on wt using four_cyls
+lm(mpg ~ wt, four_cyls )
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = four_cyls)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##      39.571       -5.647
+
+### Using an anonymous function
+
+``` r
+fit_reg <- function(df) {
+  lm(mpg ~ wt, data = df)
+}
+
+# Call user written function
+map(cyl, fit_reg)
+```
+
+    ## $`4`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = df)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##      39.571       -5.647  
+    ## 
+    ## 
+    ## $`6`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = df)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##       28.41        -2.78  
+    ## 
+    ## 
+    ## $`8`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = df)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##      23.868       -2.192
+
+``` r
+# Rewrite to call an anonymous function
+map(cyl, function(df) lm(mpg ~ wt, data = df))
+```
+
+    ## $`4`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = df)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##      39.571       -5.647  
+    ## 
+    ## 
+    ## $`6`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = df)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##       28.41        -2.78  
+    ## 
+    ## 
+    ## $`8`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = df)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##      23.868       -2.192
+
+### Using a formula
+
+``` r
+# Rewrite to use the formula shortcut instead
+map(cyl, ~ lm(mpg ~ wt, data = .))
+```
+
+    ## $`4`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = .)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##      39.571       -5.647  
+    ## 
+    ## 
+    ## $`6`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = .)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##       28.41        -2.78  
+    ## 
+    ## 
+    ## $`8`
+    ## 
+    ## Call:
+    ## lm(formula = mpg ~ wt, data = .)
+    ## 
+    ## Coefficients:
+    ## (Intercept)           wt  
+    ##      23.868       -2.192
+
+### Using a string
+
+``` r
+# Save the result from the previous exercise to the variable models
+models <- map(cyl, ~ lm(mpg ~ wt, data = .))
+
+# Use map and coef to get the coefficients for each model: coefs
+coefs <- map(models, coef)
+
+# Use string shortcut to extract the wt coefficient 
+map(coefs, "wt")
+```
+
+    ## $`4`
+    ## [1] -5.647025
+    ## 
+    ## $`6`
+    ## [1] -2.780106
+    ## 
+    ## $`8`
+    ## [1] -2.192438
+
+### Using a numeric vector
+
+``` r
+coefs <- map(models, coef)
+
+# use map_dbl with the numeric shortcut to pull out the second element
+map_dbl(coefs, 2)
+```
+
+    ##         4         6         8 
+    ## -5.647025 -2.780106 -2.192438
+
+### Putting it together with pipes
+
+``` r
+# Define models (don't change)
+models <- mtcars %>% 
+  split(mtcars$cyl) %>%
+  map(~ lm(mpg ~ wt, data = .))
+
+# Rewrite to be a single command using pipes 
+models %>% map(summary) %>% map_dbl("r.squared")
+```
+
+    ##         4         6         8 
+    ## 0.5086326 0.4645102 0.4229655
