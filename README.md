@@ -10,7 +10,7 @@ Functions are a fundamental building block of the R language. You've probably us
 
 ### [Functional programming](functional_programming.md)
 
-### Advanced inputs and outputs  
+### [Advanced inputs and outputs](advanced_inputs_outputs.md)  
 
 ### Robust functions  
 
