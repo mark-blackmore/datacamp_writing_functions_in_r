@@ -12,9 +12,9 @@ Functions are a fundamental building block of the R language. You've probably us
 
 ### [Advanced inputs and outputs](advanced_inputs_outputs.md)  
 
-### Robust functions  
+### [Robust functions](robust_functions.md)  
 
-### 
+
 
 
 
